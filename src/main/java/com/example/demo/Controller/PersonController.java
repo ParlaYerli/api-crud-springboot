@@ -27,6 +27,20 @@ public class PersonController {
     @GetMapping("/person/{id}")
     public Person getPersonById(@PathVariable(value = "id") int id) {
          return personDao.findOne(id);
+    }
 
+    @PutMapping("/person/{id}")
+    public String update(@PathVariable(value = "id") int id, @Valid @RequestBody Person person){
+        Person person1 = personDao.findOne(id);
+        person1.setName(person.getName());
+        Person newPerson= personDao.save(person1);
+        return "başarıyla değiştirildi";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String delete(@RequestBody @Valid @PathVariable(value = "id") int id){
+        Person person=personDao.findOne(id);
+        personDao.delete(person);
+        return "başarıyla silindi";
     }
 }
